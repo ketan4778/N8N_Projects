@@ -1,0 +1,274 @@
+{
+  "name": "Reddit Comment Generator",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -1264,
+        -176
+      ],
+      "id": "1d89c047-d4d7-4252-a78e-7c803df9b0e2",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "url": "https://news.google.com/rss/search?q=software+testing+site:quora.com&hl=en-IN&gl=IN&ceid=IN:en",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "User-Agent",
+              "value": "Mozilla/5.0"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -976,
+        -256
+      ],
+      "id": "9bd46af8-39ec-4af7-9e1e-538fc4ebe5b2",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.xml",
+      "typeVersion": 1,
+      "position": [
+        -720,
+        -256
+      ],
+      "id": "bcfd71f9-39f3-4742-a909-4c5ac619face",
+      "name": "XML"
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $json.rss?.channel?.item || [];\n\nreturn items\n  .filter(item => \n    item.title && \n    item.title.includes(\"?\") &&\n    item.title !== \"Quora - Quora\"\n  )\n  .map(item => ({\n    title: item.title,\n    link: item.link\n  }));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -496,
+        -224
+      ],
+      "id": "2a7e68d4-1b63-4d14-9f27-4fc3ea9a8fb2",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "maxItems": 4,
+        "keep": "lastItems"
+      },
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        -288,
+        -224
+      ],
+      "id": "9fe2b43e-486d-4d24-88a2-0aea2112659b",
+      "name": "Limit"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://127.0.0.1:11434/api/generate",
+        "sendHeaders": true,
+        "specifyHeaders": "json",
+        "jsonHeaders": "={ \"model\": \"llama3.2:latest\", \"prompt\": \"Write a blog article on What is your achievements in your job role as a software tester? - Quora\", \"stream\": false }",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"model\": \"llama3.2:latest\",\n  \"prompt\": \"Write a comment for this exact question: '{{ $json['title'] }}'. Rules: 1) Do NOT change or rephrase the title. 2) Return ONLY this exact JSON format: {\\\"title\\\": \\\"the exact question\\\", \\\"comment\\\": \\\"your answer here\\\"}. No extra text, no markdown, nothing outside the JSON.\",\n  \"stream\": false,\n  \"format\": \"json\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        144,
+        -240
+      ],
+      "id": "503569a7-b65d-40ba-9259-09ab954b1758",
+      "name": "Content",
+      "executeOnce": false,
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\n\nconst results = items.map((item) => {\n  const rawResponse = item.json.response;\n  const parsed = JSON.parse(rawResponse);\n\n  return {\n    json: {\n      title: parsed.title,\n      comment: parsed.comment\n    }\n  };\n});\n\nreturn results;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -800,
+        96
+      ],
+      "id": "e8851509-ec51-4faf-81c9-90ce29627d17",
+      "name": "Code in JavaScript1"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "15i6o0aUE6DywNIjnzzPtJtLotnVUVzoL5fg_8pb_V_g",
+          "mode": "list",
+          "cachedResultName": "Quora - Comments",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/15i6o0aUE6DywNIjnzzPtJtLotnVUVzoL5fg_8pb_V_g/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 340901026,
+          "mode": "list",
+          "cachedResultName": "Testing Comments",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/15i6o0aUE6DywNIjnzzPtJtLotnVUVzoL5fg_8pb_V_g/edit#gid=340901026"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "title": "={{$json[\"title\"]}}",
+            "comment": "={{$json[\"comment\"]}}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "title",
+              "displayName": "title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "comment",
+              "displayName": "comment",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -80,
+        48
+      ],
+      "id": "273efc01-b46c-47ae-a9fc-cde71cac6e19",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "p8N40LPAYJxqJPWf",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "XML",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "XML": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Limit",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limit": {
+      "main": [
+        [
+          {
+            "node": "Content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Content": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript1": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "1e6aa68c-660e-41d2-be7e-25b892d59835",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "b106eac492428c081daae47d953feedabc4fee6a6f38dce917ec316de5d0de04"
+  },
+  "id": "UdswfLbOBdF8trB7",
+  "tags": []
+}
