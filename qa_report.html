@@ -1,0 +1,179 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 30px; background: #f4f6f9; }
+    h2 { color: #2c3e50; margin-bottom: 5px; }
+    .summary { display: flex; gap: 20px; margin-bottom: 30px; flex-wrap: wrap; }
+    .card { background: white; border-radius: 10px; padding: 20px 30px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.1); min-width: 120px; }
+    .card h3 { margin: 0; font-size: 14px; color: #888; }
+    .card p { margin: 5px 0 0; font-size: 32px; font-weight: bold; }
+    .pass { color: #27ae60; }
+    .fail { color: #e74c3c; }
+    .notrun { color: #f39c12; }
+    table { width: 100%; border-collapse: collapse; background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 30px; }
+    th { background: #2c3e50; color: white; padding: 14px 18px; text-align: left; }
+    td { padding: 12px 18px; border-bottom: 1px solid #eee; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: #f0f4ff; }
+    .badge-pass { background: #eafaf1; color: #27ae60; padding: 4px 10px; border-radius: 20px; font-weight: bold; }
+    .badge-fail { background: #fdedec; color: #e74c3c; padding: 4px 10px; border-radius: 20px; font-weight: bold; }
+    .badge-notrun { background: #fef9e7; color: #f39c12; padding: 4px 10px; border-radius: 20px; font-weight: bold; }
+    .progress-bar { background: #eee; border-radius: 10px; height: 10px; width: 100px; }
+    .progress-fill-pass { background: #27ae60; border-radius: 10px; height: 10px; }
+    .progress-fill-fail { background: #e74c3c; border-radius: 10px; height: 10px; }
+    .ai-box { background: white; border-left: 5px solid #2c3e50; border-radius: 10px; padding: 20px 25px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 30px; }
+    .ai-box h3 { margin: 0 0 10px; color: #2c3e50; font-size: 16px; }
+    .ai-box p { margin: 0; color: #555; line-height: 1.8; white-space: pre-line; }
+  </style>
+</head>
+<body>
+  <h2>📊 QA Test Execution Report</h2>
+  <p style="color:#888; margin-top:0">Generated on: 28/2/2026, 12:39:27 pm</p>
+
+  <div class="summary">
+    <div class="card">
+      <h3>Total Devices</h3>
+      <p style="color:#2c3e50">4</p>
+    </div>
+    <div class="card">
+      <h3>Total Passed</h3>
+      <p class="pass">1</p>
+    </div>
+    <div class="card">
+      <h3>Total Failed</h3>
+      <p class="fail">2</p>
+    </div>
+    <div class="card">
+      <h3>Total Not Run</h3>
+      <p class="notrun">1</p>
+    </div>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Device Name</th>
+        <th>Pass</th>
+        <th>Fail</th>
+        <th>Not Run</th>
+        <th>Total</th>
+        <th>Pass Rate</th>
+        <th>Fail Rate</th>
+      </tr>
+    </thead>
+    <tbody>
+      
+        <tr>
+          <td><strong>Chrome</strong></td>
+          <td><span class="badge-pass">1</span></td>
+          <td><span class="badge-fail">0</span></td>
+          <td><span class="badge-notrun">0</span></td>
+          <td>1</td>
+          <td>
+            <div style="display:flex; align-items:center; gap:8px">
+              <div class="progress-bar">
+                <div class="progress-fill-pass" style="width:100.0%"></div>
+              </div>
+              <span class="pass">100.0%</span>
+            </div>
+          </td>
+          <td>
+            <div style="display:flex; align-items:center; gap:8px">
+              <div class="progress-bar">
+                <div class="progress-fill-fail" style="width:0.0%"></div>
+              </div>
+              <span class="fail">0.0%</span>
+            </div>
+          </td>
+        </tr>
+      
+        <tr>
+          <td><strong>Firefox</strong></td>
+          <td><span class="badge-pass">0</span></td>
+          <td><span class="badge-fail">1</span></td>
+          <td><span class="badge-notrun">0</span></td>
+          <td>1</td>
+          <td>
+            <div style="display:flex; align-items:center; gap:8px">
+              <div class="progress-bar">
+                <div class="progress-fill-pass" style="width:0.0%"></div>
+              </div>
+              <span class="pass">0.0%</span>
+            </div>
+          </td>
+          <td>
+            <div style="display:flex; align-items:center; gap:8px">
+              <div class="progress-bar">
+                <div class="progress-fill-fail" style="width:100.0%"></div>
+              </div>
+              <span class="fail">100.0%</span>
+            </div>
+          </td>
+        </tr>
+      
+        <tr>
+          <td><strong>Edge</strong></td>
+          <td><span class="badge-pass">0</span></td>
+          <td><span class="badge-fail">0</span></td>
+          <td><span class="badge-notrun">1</span></td>
+          <td>1</td>
+          <td>
+            <div style="display:flex; align-items:center; gap:8px">
+              <div class="progress-bar">
+                <div class="progress-fill-pass" style="width:0.0%"></div>
+              </div>
+              <span class="pass">0.0%</span>
+            </div>
+          </td>
+          <td>
+            <div style="display:flex; align-items:center; gap:8px">
+              <div class="progress-bar">
+                <div class="progress-fill-fail" style="width:0.0%"></div>
+              </div>
+              <span class="fail">0.0%</span>
+            </div>
+          </td>
+        </tr>
+      
+        <tr>
+          <td><strong>Safari</strong></td>
+          <td><span class="badge-pass">0</span></td>
+          <td><span class="badge-fail">1</span></td>
+          <td><span class="badge-notrun">0</span></td>
+          <td>1</td>
+          <td>
+            <div style="display:flex; align-items:center; gap:8px">
+              <div class="progress-bar">
+                <div class="progress-fill-pass" style="width:0.0%"></div>
+              </div>
+              <span class="pass">0.0%</span>
+            </div>
+          </td>
+          <td>
+            <div style="display:flex; align-items:center; gap:8px">
+              <div class="progress-bar">
+                <div class="progress-fill-fail" style="width:100.0%"></div>
+              </div>
+              <span class="fail">100.0%</span>
+            </div>
+          </td>
+        </tr>
+      
+    </tbody>
+  </table>
+
+  <div class="ai-box">
+    <h3>🤖 AI Analysis & Recommendations</h3>
+    <p>Overall quality status: Average
+
+Best device name: Chrome (100.0%)
+
+Worst device name: Firefox (0.0%)
+
+Recommendation: Focus on improving test coverage for Firefox to improve overall quality.</p>
+  </div>
+
+</body>
+</html>
